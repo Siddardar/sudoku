@@ -1,6 +1,7 @@
-def solveSudoku(self, board: List[List[str]]) -> None:
+
+def solveSudoku(self, board: list[list[str]]) -> None:
     """
-        Do not return anything, modify board in-place instead.
+    Do not return anything, modify board in-place instead.
     """
 
     columns = []
@@ -74,7 +75,7 @@ def solveSudoku(self, board: List[List[str]]) -> None:
                 empty_cells[val_num] = possible_values
 
     # Fill in cells with only one possible value
-    def one_value(self, all_empty_cells, sudoku_board):
+    def one_value(all_empty_cells, sudoku_board):
         while True:
             removed_keys = {}
             # print(all_empty_cells)
@@ -123,7 +124,7 @@ def solveSudoku(self, board: List[List[str]]) -> None:
                         poss_vals.remove(aff_val)
                         all_empty_cells[aff_key] = poss_vals
 
-    one_value(self, empty_cells, board)
+    one_value(empty_cells, board)
     if empty_cells == {}:
         return
 
@@ -160,40 +161,42 @@ def solveSudoku(self, board: List[List[str]]) -> None:
                 break
 
     if retry == True:
-        one_value(self, empty_cells, board)
+        one_value(empty_cells, board)
 
     if empty_cells == {}:
         return
 
-    def valid(row, col, num):
+    remaining_cells = list(empty_cells)
+
+    def valid(cell, num):
         for i in range(9):
 
-            if board[row][i] == num:
+            if board[int(cell[0])][i] == num:
                 return False
-            if board[i][col] == num:
+            if board[i][int(cell[1])] == num:
                 return False
-            if board[(3*(row//3)) + i//3][(3*(col//3)) + i % 3] == num:
+            if board[(3*(int(cell[0])//3)) + i//3][(3*(int(cell[1])//3)) + i % 3] == num:
                 return False
 
         return True
 
-    def brute(row, col):
-        if row == 9:
+    def brute(pointer):
+        if pointer == len(remaining_cells):
             return True
-        if col == 9:
-            return brute(row+1, 0)
 
-        if board[row][col] == ".":
+        cell = remaining_cells[pointer]
+
+        if board[int(cell[0])][int(cell[1])] == ".":
             for n in range(1, 10):
-                if valid(row, col, str(n)):
-                    board[row][col] = str(n)
+                if valid(cell, str(n)):
+                    board[int(cell[0])][int(cell[1])] = str(n)
 
-                    if brute(row, col + 1):
+                    if brute(pointer + 1):
                         return True
                     else:
-                        board[row][col] = "."
+                        board[int(cell[0])][int(cell[1])] = "."
             return False
         else:
-            return brute(row, col + 1)
+            return brute(pointer + 1)
 
-    brute(0, 0)
+    brute(0)
