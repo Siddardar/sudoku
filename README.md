@@ -1,4 +1,6 @@
-# Sudoku 
+<h1 align="center">
+  Sudoku Solver
+</h1>
 
 ## Overview
 This script allows for any sudoku puzzle to be solved using an almost human-like approach first before using the traditional backtracking approach to finish the puzzle allowing it to be in the 85th percentile of all solutions on [Leetcode](https://leetcode.com/problems/sudoku-solver/submissions/902197912/) in terms of runtime.  
